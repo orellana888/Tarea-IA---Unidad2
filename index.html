@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea 2 IA</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+
+    <div class="container">
+        <select id="select-conversion">
+          <option selected>Elija una opcion</option>
+          <option value="conversion-lb-kg">Convertir libras a kilogramos</option>
+          <option value="conversion-m-km">Convertir metros a kilometros</option>
+          <option value="conversion-hr-min">Convertir horas a minutos</option>
+        </select>
+        
+        <div id="conversion-lb-kg" class="conversion" style="display: none;">
+          <input type="number" id="libras" placeholder="Convertir libras a kilogramos">
+          <h2 id="lbl_resultado"></h2>
+          <button onclick="ConvertirLibras()">Convertir</button>        
+        </div>
+        
+        <div id="conversion-m-km" class="conversion" style="display: none;">
+          <input type="number" id="metros" placeholder="Convertir metros a kilometros">
+          <h2 id="lbl_resultado2"></h2>
+          <button onclick="ConvertirMetros()">Convertir</button> 
+        </div>
+        
+        <div id="conversion-hr-min" class="conversion" style="display: none;">
+          <input type="number" id="horas" placeholder="Convertir horas a minutos">
+          <h2 id="lbl_resultado3"></h2>
+          <button onclick="ConvertirHoras()">Convertir</button> 
+        </div>
+      </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+<script type="text/javascript">
+
+    let modelo = null;
+    let modelo2 = null;
+    let modelo3 = null;
+
+    //cargar modelo
+    (async () =>{
+        console.log("-----------MODELO 1------------------------");
+        console.log("Cargando el modelo 1...");
+        modelo = await tf.loadLayersModel("./data_conversion1/model.json");
+        console.log("Modelo cargado exitosamente!");
+        console.log("-----------MODELO 2------------------------");
+        console.log("Cargando el modelo 2...");
+        modelo = await tf.loadLayersModel("./data_conversion2/model.json");
+        console.log("Modelo cargado exitosamente!");
+        console.log("-----------MODELO 3------------------------");
+        console.log("Cargando el modelo 3...");
+        modelo = await tf.loadLayersModel("./data_conversion3/model.json");
+        console.log("Modelo cargado exitosamente!");
+    })();
+
+
+    const selectConversion = document.getElementById("select-conversion");
+    const conversionContainers = document.querySelectorAll(".conversion");
+
+    selectConversion.addEventListener("change", function() {
+    const selectedConversion = selectConversion.value;
+    conversionContainers.forEach(container => {
+        container.style.display = "none";
+    });
+    document.getElementById(selectedConversion).style.display = "block";
+    });
+    
+// ******************************************************************************************** //
+    function ConvertirLibras(){
+      const libras = document.getElementById('libras');
+      const resultado = document.getElementById('lbl_resultado');
+      libras.value;
+    }
+
+    if (modelo != null){
+      const tensor = tf.tensor1d([parseInt(libras.value)]);
+      const prediccion = modelo.predict(tensor).dataSync();
+      prediccion = Math.round(prediccion);
+      resultado.innerHTML = `${libras} libras son ${prediccion} kg`;
+    }else{
+
+    }
+
+
+// ******************************************************************************************** //
+    function ConvertirMetros(){
+        
+    }
+// ******************************************************************************************** //
+    function ConvertirHoras(){
+        
+    }
+
+
+</script>
+</html>
