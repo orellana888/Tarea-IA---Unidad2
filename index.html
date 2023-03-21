@@ -40,23 +40,23 @@
 
 <script type="text/javascript">
 
-    let modelo = null;
+    let modelo1 = null;
     let modelo2 = null;
     let modelo3 = null;
 
     //cargar modelo
     (async () =>{
         console.log("-----------MODELO 1------------------------");
-        console.log("Cargando el modelo 1...");
-        modelo = await tf.loadLayersModel("./data_conversion1/model.json");
+        console.log("Cargando el modelo de conversión de lb a kg...");
+        modelo1 = await tf.loadLayersModel("./data_convert_libras/model.json");
         console.log("Modelo cargado exitosamente!");
         console.log("-----------MODELO 2------------------------");
-        console.log("Cargando el modelo 2...");
-        modelo = await tf.loadLayersModel("./data_conversion2/model.json");
+        console.log("Cargando el modelo de conversión de m a km...");
+        modelo2 = await tf.loadLayersModel("./data_convert_metros/model.json");
         console.log("Modelo cargado exitosamente!");
         console.log("-----------MODELO 3------------------------");
-        console.log("Cargando el modelo 3...");
-        modelo = await tf.loadLayersModel("./data_conversion3/model.json");
+        console.log("Cargando el modelo de conversión de hr a min...");
+        modelo3 = await tf.loadLayersModel("./data_convert_horas/model.json");
         console.log("Modelo cargado exitosamente!");
     })();
 
@@ -76,26 +76,53 @@
     function ConvertirLibras(){
       const libras = document.getElementById('libras');
       const resultado = document.getElementById('lbl_resultado');
-      libras.value;
-    }
+   
 
-    if (modelo != null){
+    if (modelo1 != null){
+
       const tensor = tf.tensor1d([parseInt(libras.value)]);
-      const prediccion = modelo.predict(tensor).dataSync();
+
+      let prediccion = modelo1.predict(tensor).dataSync();
       prediccion = Math.round(prediccion);
-      resultado.innerHTML = `${libras} libras son ${prediccion} kg`;
+      resultado.innerHTML = `${libras.value} libras son ${prediccion} kg`;
     }else{
-
+      console.log('Intente mas tarde')
     }
-
+  }
 
 // ******************************************************************************************** //
     function ConvertirMetros(){
-        
+        const metros = document.getElementById('metros');
+        const resultado = document.getElementById('lbl_resultado2');
+    
+
+      if (modelo2 != null){
+
+        const tensor = tf.tensor1d([parseInt(metros.value)]);
+
+        let prediccion = modelo2.predict(tensor).dataSync();
+        prediccion = Math.round(prediccion);
+        resultado.innerHTML = `${metros.value} metros son ${prediccion} km`;
+      }else{
+        console.log('Intente mas tarde')
+      }
     }
 // ******************************************************************************************** //
     function ConvertirHoras(){
-        
+      const horas = document.getElementById('horas');
+      const resultado = document.getElementById('lbl_resultado3');
+    
+
+      if (modelo3 != null){
+
+        const tensor = tf.tensor1d([parseInt(horas.value)]);
+
+        let prediccion = modelo3.predict(tensor).dataSync();
+        prediccion = Math.round(prediccion);
+        resultado.innerHTML = `${horas.value} horas son ${prediccion} minutos`;
+      }else{
+        console.log('Intente mas tarde')
+      }
     }
 
 
