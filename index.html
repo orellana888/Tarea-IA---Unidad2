@@ -83,7 +83,7 @@
       const tensor = tf.tensor1d([parseInt(libras.value)]);
 
       let prediccion = modelo1.predict(tensor).dataSync();
-      prediccion = Math.round(prediccion);
+      prediccion = parseFloat(prediccion).toFixed(2);
       resultado.innerHTML = `${libras.value} libras son ${prediccion} kg`;
     }else{
       console.log('Intente mas tarde')
@@ -101,7 +101,7 @@
         const tensor = tf.tensor1d([parseInt(metros.value)]);
 
         let prediccion = modelo2.predict(tensor).dataSync();
-        prediccion = Math.round(prediccion);
+        prediccion = parseFloat(prediccion).toFixed(2);
         resultado.innerHTML = `${metros.value} metros son ${prediccion} km`;
       }else{
         console.log('Intente mas tarde')
